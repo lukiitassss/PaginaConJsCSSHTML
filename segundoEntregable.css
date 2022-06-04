@@ -1,0 +1,355 @@
+*{
+    margin: 0%;
+    padding: 0%;
+}
+
+html{
+    font-family: 'Orelega One', cursive;
+}
+
+body{
+    background-image: url(imagenes/fondoPrincipal.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+header{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    height: 100px;
+    width: 100%;
+    text-align: center;
+    background-image: linear-gradient(to right, #000000, #2d59e9);
+    
+    
+}
+
+header  a{
+    text-decoration: none;
+    color: white;
+    font-size: 63px;
+}
+
+header a:hover{
+    color: yellow;
+    font-size: 63px;
+    background: linear-gradient(yellow,rgb(255, 145, 0));
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+
+nav{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between
+}
+
+.carrito{
+    background-image: url();
+    width: 10%;
+    height: 10%;
+}
+
+.carrito  img{
+
+    width: 30%;
+}
+
+.carrito  img:hover{
+    width: 32%;
+}
+
+form{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 2%;
+    margin-bottom: 2%;
+
+}
+
+[type="search"]{
+    height: 35px;
+    width: 70%;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+[type="submit"]{
+    height: 35px;
+    width: 5%;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+#asideYMain{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-bottom: 100px;
+}
+
+
+
+/* Filtros */
+/* configurar cuerpo */
+aside{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(253, 253, 253, 0.63);
+    width: 20%;
+    border-radius: 10px;
+    text-align: center;
+}
+
+aside h2{
+    
+    text-align: center;
+    margin-top: 10px;
+    width: 90%;
+    border-bottom: #000000 solid 1px;
+}
+
+/* configurar sub categorias */
+
+#marca{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 95%;       
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-bottom: #000000 solid 1px;
+}
+
+#marca p{
+    font-size: 25px;
+}
+
+#marcas{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin:5px 0px; 
+}
+
+#aplicarFiltroMarca{
+    width: 40%;
+    background-color: #2d59e998;
+}
+
+#aplicarFiltroMarca:hover{
+    width: 41%;
+    background-color: #2d59e9;
+}
+
+
+#categoria{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 95%;       
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-bottom: #000000 solid 1px;
+}
+#categorias{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin:5px 0px; 
+}
+
+#categoria p{
+    font-size: 25px;
+}
+
+#aplicarFiltroCategoria{
+    width: 40%;
+    background-color: #2d59e998;
+}
+
+#aplicarFiltroCategoria:hover{
+    width: 41%;
+    background-color: #2d59e9;
+}
+
+#precio{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 95%;
+    height: 200px;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-bottom: #000000 solid 1px;
+}
+
+#precio p{
+    font-size: 25px;
+}
+
+
+#minimo{
+    display: block;
+}
+#maximo{
+    display: block;
+}
+
+#aplicarFiltroPrecio{
+    width: 40%;
+}
+
+
+
+/* elementos que van a ir apareciendo desde js */
+#filtrosAplicados{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    width: 95%;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-bottom: #000000 solid 1px;
+}
+
+
+#filtrosAplicados  p{
+
+    font-size: 25px;
+}
+
+#filtrosAplicados button{
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(253, 62, 62);
+    text-align: center;
+    color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+main{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    background: linear-gradient(to right, rgba(25, 0, 255, 0.514), rgb(128, 0, 128));
+    width: 75%;
+    border-radius: 10px;
+}
+
+
+
+.card {
+    width: 25%;
+    height: 270px;
+    padding: .8em;
+    margin: 1em;
+    background: linear-gradient(to right, rgba(12, 255, 255, 0.514), rgb(255, 3, 255));
+    border-radius: 10px;
+    position: relative;
+    overflow: visible;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+   }
+   
+   .card-img {
+    background-color: #ffcaa6;
+    height: 55%;
+    width: 100%;
+    border-radius: .5rem;
+    transition: .3s ease;
+   }
+   
+   .card-info {
+    padding-top: 10%;
+   }
+   
+   svg {
+    width: 20px;
+    height: 20px;
+   }
+
+ 
+    
+   
+   .card-footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+   }
+   
+   /*Text*/
+   .text-title {
+    font-weight: 900;
+    font-size: 1.2em;
+    line-height: 1.5;
+   }
+   
+   .text-body {
+    font-size: .9em;
+    padding-bottom: 10px;
+   }
+   
+   /*Button*/
+   .card-button {
+    border: 1px solid #252525;
+    display: flex;
+    padding: .3em;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: .3s ease-in-out;
+   }
+   
+   /*Hover*/
+   .card-img:hover {
+    transform: translateY(-5%);
+    box-shadow: rgba(226, 196, 63, 0.25) 0px 13px 47px -5px, rgba(180, 71, 71, 0.3) 0px 8px 16px -8px;
+   }
+   
+   .card-button:hover {
+    border: 1px solid #ffcaa6;
+    background-color: #ffcaa6;
+   }
+
+   .card-button:active{
+    background-color:red
+   }
+
+
+   s
