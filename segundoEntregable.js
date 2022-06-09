@@ -28,6 +28,11 @@ const precio = document.getElementById("precio");
 const borrarFiltroPrecio = document.getElementById("articuloFiltroPrecio");
 const borrarFiltroCategoria = document.getElementById("articuloFiltroCategoria");
 const borrarFiltroMarca = document.getElementById("articuloFiltroMarca");
+const botonCarrito = document.getElementById("listarCarrito");
+const listaCarrito= document.getElementById("listaDelCarrito");
+const cerrarCarrito=document.getElementById("cerrarCarrito");
+let carrito=[];
+let cartasDisponibles = null;
 let arregloCategorias=[];
 let indiceCategoria=null;
 let indiceMarca=null;
@@ -50,22 +55,18 @@ let formularioMarca=null;
 
 
 
-
-
-
-//CARGAMOS LO NECESARIO AL PRINCIPIO
-window.addEventListener('load', function() {
+function cargarProductos(productos) {
     texto="";
     for (let i = 0; i < productos.length; i++) {
-               texto +=             `    <div class="card">
+               texto +=             `    <div class="card" id=card${i+1}>
                <img class="card-img" src="${productos[i].imagen}" alt="">
                <div class="card-info">
                  <p class="text-title">${productos[i].nombre} </p>
                </div>
                <div class="card-footer">
                <span class="text-title">$ ${productos[i].precio}</span>
-               <div class="card-button">
-                 <svg class="svg-icon" viewBox="0 0 20 20">
+               <div class="card-button" data-id=${i+1}>
+                 <svg class="svg-icon" data-id=svg${i+1} data-idviewBox="0 0 20 20">
                    <path d="M17.72,5.011H8.026c-0.271,0-0.49,0.219-0.49,0.489c0,0.271,0.219,0.489,0.49,0.489h8.962l-1.979,4.773H6.763L4.935,5.343C4.926,5.316,4.897,5.309,4.884,5.286c-0.011-0.024,0-0.051-0.017-0.074C4.833,5.166,4.025,4.081,2.33,3.908C2.068,3.883,1.822,4.075,1.795,4.344C1.767,4.612,1.962,4.853,2.231,4.88c1.143,0.118,1.703,0.738,1.808,0.866l1.91,5.661c0.066,0.199,0.252,0.333,0.463,0.333h8.924c0.116,0,0.22-0.053,0.308-0.128c0.027-0.023,0.042-0.048,0.063-0.076c0.026-0.034,0.063-0.058,0.08-0.099l2.384-5.75c0.062-0.151,0.046-0.323-0.045-0.458C18.036,5.092,17.883,5.011,17.72,5.011z"></path>
                    <path d="M8.251,12.386c-1.023,0-1.856,0.834-1.856,1.856s0.833,1.853,1.856,1.853c1.021,0,1.853-0.83,1.853-1.853S9.273,12.386,8.251,12.386z M8.251,15.116c-0.484,0-0.877-0.393-0.877-0.874c0-0.484,0.394-0.878,0.877-0.878c0.482,0,0.875,0.394,0.875,0.878C9.126,14.724,8.733,15.116,8.251,15.116z"></path>
                    <path d="M13.972,12.386c-1.022,0-1.855,0.834-1.855,1.856s0.833,1.853,1.855,1.853s1.854-0.83,1.854-1.853S14.994,12.386,13.972,12.386z M13.972,15.116c-0.484,0-0.878-0.393-0.878-0.874c0-0.484,0.394-0.878,0.878-0.878c0.482,0,0.875,0.394,0.875,0.878C14.847,14.724,14.454,15.116,13.972,15.116z"></path>
@@ -73,19 +74,41 @@ window.addEventListener('load', function() {
                </div>
              </div></div>`;
     }
-    mainPrincipal.innerHTML=texto;
+    mainPrincipal.innerHTML=texto; 
+}
+
+
+
+function cantidadComprados(carrito) {
+    let cantidad;
+    let carritoHtml= document.getElementById("cantidadCarrito");
+    if (carrito.length===0){
+        carritoHtml.innerText=""; 
+        carritoHtml.style.display="none";
+    }else{
+
+        cantidad=carrito.length;
+        carritoHtml.innerText=cantidad;
+        carritoHtml.style.display="flex";
+    }
+    //aca debo ver si es 0 no mostrar sino mostrar la cantidad
+}
+
+function cargarCarrito (){
+    let carritoLS=JSON.stringify(localStorage.getItem('carrito'));
+    if (carritoLS !="null") {//me fijo si existe la clave
+        carrito = JSON.parse(localStorage.getItem("carrito"));//lo cargo a mi arreglo
+    } 
+}
+
+
+//CARGAMOS LO NECESARIO AL PRINCIPIO
+window.addEventListener('load', function() {
+    listaCarrito.style.display="none";
+    cargarProductos(productos);
+    cargarCarrito();
+    cantidadComprados(carrito);
 });
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -155,14 +178,17 @@ function aplicacionDeFiltro(filtroName){
     switch (filtroName) {
         case "Marca":
             filtrados=filtrados.filter((el)=>el.marca==formularioMarca.children[1].children[indiceMarca].children[0].id)
+            cargarProductos(filtrados);
             break;
         case "Categoria":
             filtrados=filtrados.filter((el)=>el.categoria.toLowerCase().replace(" ","")==formularioCategoria.children[1].children[indiceCategoria].children[0].id)
+            cargarProductos(filtrados);
             break;
         case "Precio":            
             let minimo=formularioPrecio.children[1].children[1].value; //rango minimo
             let maximo= formularioPrecio.children[2].children[1].value; //rango maximo
             filtrados= filtrados.filter((el)=>el.precio<=maximo && el.precio>=minimo);
+            cargarProductos(filtrados);
             break;
     }
 }
@@ -269,6 +295,7 @@ function filtrarPorPrecio(e){
         filtrosAplicados = filtrosAplicados.filter((item) => item != "Precio");
         if(!filtrosAplicados.length){
             filtrados = [];
+            cargarProductos(productos);
         }
         else{
             reHacerFiltrados();
@@ -302,25 +329,22 @@ function filtrarPorCategoria(e){
             } else {
                 filtrados = JSON.parse(JSON.stringify(productos));
                 indiceCategoria=i;
-                aplicacionDeFiltro("Categoria");
-                
+                aplicacionDeFiltro("Categoria"); 
             }
-             ; 
         }
-        
     }
-
     document.getElementById("categoria").style.display = "none"; // hide
     ponerEnFiltrados("Categoria");
-
-
 }
+
+
 
 borrarFiltroCategoria.onclick=()=>{
     
     filtrosAplicados = filtrosAplicados.filter((item) => item != "Categoria");
     if(!filtrosAplicados.length){
         filtrados = [];
+        cargarProductos(productos);
     }
     else{
         reHacerFiltrados();
@@ -329,19 +353,6 @@ borrarFiltroCategoria.onclick=()=>{
     item.innerHTML='';
     document.getElementById("categoria").style.display = "flex"; // hide
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -362,22 +373,15 @@ function filtrarPorMarca(e){
             if (filtrados.length) {
                 indiceMarca=i;
                 aplicacionDeFiltro("Marca");
-                
             } else {
                 filtrados = JSON.parse(JSON.stringify(productos));
                 indiceMarca=i;
                 aplicacionDeFiltro("Marca");
-                
             }
-             ; 
         }
-        
     }
-
     document.getElementById("marca").style.display = "none"; // hide
     ponerEnFiltrados("Marca");
-
-
 }
 
 borrarFiltroMarca.onclick=()=>{
@@ -385,6 +389,7 @@ borrarFiltroMarca.onclick=()=>{
     filtrosAplicados = filtrosAplicados.filter((item) => item != "Marca");
     if(!filtrosAplicados.length){
         filtrados = [];
+        cargarProductos(productos);
     }
     else{
         
@@ -395,3 +400,55 @@ borrarFiltroMarca.onclick=()=>{
     document.getElementById("marca").style.display = "flex"; // hide
 }
 
+
+
+
+
+//CARRITO
+//agregar en compra del carrito
+function agregarACarrito(producto) {
+    carrito.push(producto);
+    let carritoLS    = JSON.stringify(carrito);//convertimos a json
+    localStorage.setItem("carrito", carritoLS);// Se guarda 
+    cantidadComprados(carrito);
+}
+
+
+botonCarrito.onclick=()=>{
+    listaCarrito.style.display="flex";
+}
+
+cerrarCarrito.onclick=()=>{
+    listaCarrito.style.display="none";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+document.addEventListener("click",e=>{
+    if (e.target.matches(".card-button") || (e.target.matches(".svg-icon"))){
+        let producto=null;
+        let clave=   e.target.dataset.id;
+        if (clave.startsWith("svg")){
+            clave= clave.slice(3,clave.length);
+        }
+        producto=productos[clave-1];
+        agregarACarrito(producto);
+        //efectos de que se agrego al carrito
+    }
+    //aca va los botones del carrito
+
+})
