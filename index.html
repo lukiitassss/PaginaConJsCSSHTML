@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="segundoEntregable.css">
     <link rel="icon" type="image/png" href="icon/favicon.svg"/>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orelega+One&display=swap" rel="stylesheet">
@@ -20,7 +21,7 @@
             <div class="carrito">
                 <img id="listarCarrito" src="icon/carrito.svg" alt="">
                 <ul id="listaDelCarrito">
-                    <button id="cerrarCarrito">X</button>
+                   
                 </ul>
                 <div id="cantidadCarrito"></div>
             </div>
@@ -76,12 +77,12 @@
                 <p>Rango de Precio</p>
                 <div>
                     <label for="minimo" id="textoMinimo"></label>
-                    <input type="range" id="minimo" name="minimo">
+                    <input type="range" id="minimo" name="minimo" step="100">
                     
                 </div>
                 <div>
                     <label for="maximo" id="textoMaximo"></label>
-                    <input type="range" id="maximo" name="maximo">
+                    <input type="range" id="maximo" name="maximo" step="100">
                 </div>
                 <input type="submit" value="Aplicar" id="aplicarFiltroPrecio">
             </form>
@@ -99,7 +100,7 @@
 
 
 
-
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="segundoEntregable.js"></script>
 </body>
 </html>

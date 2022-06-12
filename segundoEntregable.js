@@ -413,25 +413,72 @@ function agregarACarrito(producto) {
     cantidadComprados(carrito);
 }
 
+function sacarDelCarrito(clave) {
+    carrito.splice(clave-1,1);
+    cantidadComprados(carrito);
+}
+
+function mostrarElCarrito() {
+    const botonX=document.createElement("button");
+    botonX.id="cerrarCarrito";
+    botonX.textContent="X";
+    listaCarrito.appendChild(botonX);
+    let contadoPrecioTotal=0;
+    for (let i = 0; i < carrito.length; i++) {
+
+        //creamos la lista contenedora
+        let enCarrito=document.createElement("li");
+        enCarrito.className=`enCarrito`;
+
+        //primero creamos la imagen dentro de la lista
+        let imagenEnCarrito=document.createElement("img");
+        imagenEnCarrito.id=`imagenEnCarrito${i+1}`;
+        imagenEnCarrito.class="imagenEnCarrito";
+        imagenEnCarrito.src=carrito[i].imagen;
+        enCarrito.appendChild(imagenEnCarrito);
+        
+        //segundo hacemos la descripcion del producto
+        let descipcionEnCarritoEnCarrito=document.createElement("h3");
+        descipcionEnCarritoEnCarrito.innerText=carrito[i].nombre;
+        descipcionEnCarritoEnCarrito.id=`descripcionEnCarrito${i+1}`;
+        enCarrito.appendChild(descipcionEnCarritoEnCarrito);
+
+        //tercero ponemos el precio unitario
+        let precioEnCarrito=document.createElement("p");
+        precioEnCarrito.innerText=`$${carrito[i].precio}`;
+        precioEnCarrito.id=`precioEnCarrito${i+1}`;
+        enCarrito.appendChild(precioEnCarrito);
+        //aprovecho para sumar el total
+        contadoPrecioTotal+=carrito[i].precio;
+        
+        //por ultimo el boton para sacar del carrito;
+        let quitarCarrito = document.createElement("button");
+        quitarCarrito.innerText="X";
+        quitarCarrito.dataset.id=`quitarCarrito${i+1}`;
+        quitarCarrito.className="botonEnCarrito";
+        enCarrito.appendChild(quitarCarrito)
+
+        //al finalizar agrego todo lo creado al dom
+        listaCarrito.appendChild(enCarrito);  
+    }
+    //saliendo del for debo plasmar el total del carrito
+    let totalCarrito=document.createElement("p");
+    totalCarrito.innerText=`Total: ${contadoPrecioTotal}`;
+    totalCarrito.id="totalDelCarrito";
+    listaCarrito.appendChild(totalCarrito);
+    let comparaCarrito=document.createElement("button");
+    comparaCarrito.innerText="Comprar Carrito";
+    comparaCarrito.id="comprarElCarrito";
+    listaCarrito.appendChild(comparaCarrito);
+}
 
 botonCarrito.onclick=()=>{
-    listaCarrito.style.display="flex";
+    
+    if (listaCarrito.style.display==="none")
+        {  listaCarrito.style.display="flex";
+            mostrarElCarrito();
+        }
 }
-
-cerrarCarrito.onclick=()=>{
-    listaCarrito.style.display="none";
-}
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -439,16 +486,43 @@ cerrarCarrito.onclick=()=>{
 
 
 document.addEventListener("click",e=>{
+    let producto=null;
+    let clave=   e.target.dataset.id;
     if (e.target.matches(".card-button") || (e.target.matches(".svg-icon"))){
-        let producto=null;
-        let clave=   e.target.dataset.id;
         if (clave.startsWith("svg")){
             clave= clave.slice(3,clave.length);
         }
         producto=productos[clave-1];
         agregarACarrito(producto);
-        //efectos de que se agrego al carrito
-    }
+        Toastify({
+            text: "Agregado al carrito",
+            duration: 1000,
+            style: {
+              background: "linear-gradient(to right, #00b09b, #96c93d)"
+            },
+            gravity: "bottom", // `top` or `bottom`
+            position: "right"}).showToast();// `left`, `center` or `right`
+        if (listaCarrito.style.display!="none"){
+            listaCarrito.innerHTML="";
+            mostrarElCarrito();
+        }
+    }else if (e.target.matches("#cerrarCarrito")){
+             listaCarrito.style.display="none";
+            listaCarrito.innerHTML="";
+          }else if (e.target.matches(".botonEnCarrito")){
+                clave= clave.slice(13,clave.length);
+                sacarDelCarrito(clave);
+                listaCarrito.innerHTML="";
+                Toastify({
+                    text: "Se quito del carrito",
+                    duration: 1000,
+                    style: {
+                      background: "linear-gradient(to right, red, #96c93d)"
+                    },
+                    gravity: "bottom", // `top` or `bottom`
+                    position: "right"}).showToast();// `left`, `center` or `right`
+                mostrarElCarrito();
+                }
     //aca va los botones del carrito
 
 })
