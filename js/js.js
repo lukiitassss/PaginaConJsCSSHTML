@@ -406,8 +406,10 @@ borrarFiltroMarca.onclick=()=>{
 
 //CARRITO
 //agregar en compra del carrito
-function agregarACarrito(producto) {
-    carrito.push(producto);
+function agregarACarrito(producto =null) {
+    if (producto!=null) {
+        carrito.push(producto);
+    }     
     let carritoLS    = JSON.stringify(carrito);//convertimos a json
     localStorage.setItem("carrito", carritoLS);// Se guarda 
     cantidadComprados(carrito);
@@ -416,6 +418,7 @@ function agregarACarrito(producto) {
 function sacarDelCarrito(clave) {
     carrito.splice(clave-1,1);
     cantidadComprados(carrito);
+    agregarACarrito();
 }
 
 function mostrarElCarrito() {
